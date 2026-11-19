@@ -3,20 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Neon Shores — Cover Maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+<div id="dropHint" aria-hidden="true">Drop photos anywhere to add them</div>
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
+  <aside class="controls">
+    <header class="brand">
+      <h1>Neon Shores</h1>
+      <p class="sub">Cover Maker — your photos, cut into a multi-panel poster cover with a neon grade and a bold caption.</p>
+    </header>
+
+    <section class="group">
+      <h2>Photos</h2>
+      <label class="file-btn">Add your photos
+        <input id="photoFiles" type="file" accept="image/*" multiple>
+      </label>
+      <div id="thumbs" class="thumbs"></div>
+      <p id="panelLabel" class="hint">Panel 1 — click a photo to fill it, drag the cover to pan it</p>
+      <div class="row">
+        <label class="grow">Panel zoom
+          <input id="panelZoom" type="range" min="1" max="3" step="0.01" value="1">
+        </label>
+        <button id="spreadBtn" type="button" class="ghost">Fill all panels with this photo</button>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>Layout</h2>
+      <div id="layoutPicker" class="chips"></div>
+      <div class="row">
+        <label class="grow">Post size
+          <select id="sizeSelect">
+            <option value="1080x1080">Square · 1080 × 1080</option>
+            <option value="1080x1350">Portrait · 1080 × 1350</option>
+            <option value="1920x1080">Landscape · 1920 × 1080</option>
+          </select>
+        </label>
+        <label class="grow">Colour grade
+          <select id="gradeSelect"></select>
+        </label>
+      </div>
+      <label>Grade strength
+        <input id="gradeStrength" type="range" min="0" max="1" step="0.01" value="0.85">
+      </label>
+    </section>
+
+    <section class="group">
+      <h2>Caption</h2>
+      <label>Title
+        <input id="titleInput" type="text" maxlength="42" value="Neon Shores">
+      </label>
+      <label>Tagline
+        <input id="taglineInput" type="text" maxlength="60" value="Vice nights, bright lights">
+      </label>
+    </section>
+
+    <button id="exportBtn" type="button" class="export">Export PNG</button>
     <p id="status" role="status"></p>
+    <p class="fineprint">Everything stays on your machine — photos are never uploaded. Neon Shores is an original cover maker; the badge and lettering are its own.</p>
+  </aside>
+
+  <section class="stage">
+    <canvas id="preview" width="1040" height="585" aria-label="Live preview of your cover"></canvas>
+    <p class="stage-note">Live preview — click a panel to select it, drag inside it to reposition its photo.</p>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
