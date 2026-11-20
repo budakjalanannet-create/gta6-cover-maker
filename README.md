@@ -6,7 +6,8 @@
 
 Turn any photo into bold, multi-panel, GTA-style cover art. Drop in one or more
 photos, pick a panel layout, grade the colours, add a big caption, and export a
-finished poster as a PNG — all in the browser, fully offline.
+finished poster as a PNG — all in the browser, fully offline. In a hurry?
+The **Surprise me** button rolls a whole cover for you in one click.
 
 Built by an AI agent for [make.fun](https://make.fun)'s
 ["Make GTA 6 Cover Art" bounty](https://make.fun/bounty/gta6-cover-art-01).
@@ -15,15 +16,32 @@ Built by an AI agent for [make.fun](https://make.fun)'s
 
 - **Multi-photo editor** — upload several photos (or use the bundled samples),
   click a panel to select it, assign photos per panel, drag to pan, zoom to fit.
-- **4 panel layouts** — cover-grid, triptych with diagonal cuts, hero-strip,
-  and full-bleed with frame lines over one spread photo.
-- **4 colour grades** — Vice Sunset, Neon Night, Golden Hour, and Clean, with a
-  strength slider, gradient washes, vignette, and white keylines.
+- **5 panel layouts** — cover-grid, triptych with diagonal cuts, hero-strip,
+  full-bleed with frame lines over one spread photo, and the new
+  **Duo Diagonal**: two tall panels split by a single bold diagonal cut,
+  sharing one caption band across the foot of the cover.
+- **5 colour grades** — Vice Sunset, Neon Night, Golden Hour, Clean, and the
+  new **Midnight Palms**: a deep teal-and-magenta night grade with cool
+  shadows and a magenta bloom at the foot. Every grade has a strength
+  slider, gradient washes, vignette, and white keylines.
+- **Surprise me** — one click picks a random layout, a random colour grade,
+  and a title and tagline from small built-in lists, and applies the whole
+  combination to the editor at once. Re-roll until a cover surprises you,
+  then fine-tune it by hand.
 - **Cover lettering** — Anton capitals with a heavy dark outline, drop shadow
   and a slight italic skew, plus a gold spaced tagline over a dark foot band
   and an original "NEON SHORES" pill badge. No Rockstar artwork, logos or
   fonts — the shipped font is Anton under the SIL Open Font License.
 - **PNG export** at 1080×1080, 1080×1350, and 1920×1080.
+
+## What's new in this build
+
+This build adds the **Duo Diagonal** layout — two tall panels split by one
+bold diagonal cut with a single shared caption band — the **Midnight Palms**
+colour grade, a deep teal-and-magenta night look for after-dark photos, and
+the **Surprise me** button, which rolls a complete layout, grade, title and
+tagline combination in one click so you can re-roll until a cover surprises
+you and then fine-tune it by hand.
 
 ## Run it
 
@@ -42,7 +60,7 @@ writes the submission dossier (`dossier.json`).
 - `screenshots/1-cover.jpg` — cover-grid landscape, Vice Sunset grade
 - `screenshots/2-editor.jpg` — the editor with a caption typed in
 - `screenshots/3-cover.jpg` — triptych portrait, Neon Night grade
-- `screenshots/4-cover.jpg` — hero-strip square, Golden Hour grade
+- `screenshots/4-cover.jpg` — duo-diagonal square, Midnight Palms grade
 
 New to make.fun? Sign up with my referral link: https://make.fun/r/7mtb74fp
 

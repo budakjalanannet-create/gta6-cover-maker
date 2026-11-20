@@ -6,8 +6,8 @@
 // always agree with each other.
 //
 // state = {
-//   layout:  'cover-grid' | 'triptych' | 'hero-strip' | 'full-bleed',
-//   grade:   'vice-sunset' | 'neon-night' | 'golden-hour' | 'clean',
+//   layout:  'cover-grid' | 'triptych' | 'hero-strip' | 'full-bleed' | 'duo-diagonal',
+//   grade:   'vice-sunset' | 'neon-night' | 'golden-hour' | 'clean' | 'midnight-palms',
 //   gradeStrength: 0..1, how hard the colour grade leans on the photos,
 //   title:   the big caption line (drawn uppercase),
 //   tagline: the smaller line under the title,
@@ -51,6 +51,17 @@ export const LAYOUTS = {
       [[0, 0], [1, 0], [1, 1], [0, 1]], // one photo spread over everything
     ],
   },
+  'duo-diagonal': {
+    label: 'Duo Diagonal',
+    // Two tall panels split by one bold diagonal cut that runs from the
+    // upper third of the top edge down to the lower third of the bottom
+    // edge. The existing caption band still rises over the foot of both
+    // panels, so a two-photo cover keeps a single shared title area.
+    panels: [
+      [[0, 0], [0.58, 0], [0.38, 1], [0, 1]], // left panel, wider at the top
+      [[0.58, 0], [1, 0], [1, 1], [0.38, 1]], // right panel, wider at the foot
+    ],
+  },
 };
 
 // The colour grades. `filter` is interpolated toward neutral by the strength
@@ -90,9 +101,31 @@ export const GRADES = {
     ],
     empty: ['#232333', '#4c4c66'],
   },
+  'midnight-palms': {
+    label: 'Midnight Palms',
+    // A deep night grade: teal light from the top, a dark blue-green
+    // middle that keeps shadows cool, and a magenta bloom at the foot —
+    // the colours of a palm-lined street long after midnight.
+    filter: { saturate: 1.36, contrast: 1.18, brightness: 0.93 },
+    washes: [
+      [[0, 'rgba(0, 229, 204, 0.18)'], [0.45, 'rgba(6, 32, 54, 0.14)'], [1, 'rgba(255, 0, 128, 0.32)']],
+      [[0, 'rgba(0, 40, 60, 0.10)'], [1, 'rgba(24, 0, 48, 0.22)']],
+    ],
+    empty: ['#04202b', '#5c1044'],
+  },
 };
 
 export const CAPTION_FONT = "'Anton', 'Arial Narrow Bold', 'Arial Narrow', sans-serif";
+
+/** Looks up a grade by id, falling back to Vice Sunset for unknown ids. */
+export function gradeById(gradeId) {
+  return GRADES[gradeId] ?? GRADES['vice-sunset'];
+}
+
+/** Clamps a grade-strength value into the renderer's 0..1 range. */
+export function clampStrength(value) {
+  return Math.min(1, Math.max(0, value ?? 0.85));
+}
 
 /** The polygon of layout panel `index`, in canvas pixels. */
 export function panelPolygon(layoutId, index, W, H) {
@@ -319,8 +352,8 @@ function paintBadge(ctx, W, H) {
 /** Paints the whole cover described by `state` onto `ctx` at W x H. */
 export function drawCover(ctx, W, H, state) {
   const layout = LAYOUTS[state.layout] ?? LAYOUTS['cover-grid'];
-  const grade = GRADES[state.grade] ?? GRADES['vice-sunset'];
-  const strength = Math.min(1, Math.max(0, state.gradeStrength ?? 0.85));
+  const grade = gradeById(state.grade);
+  const strength = clampStrength(state.gradeStrength);
 
   ctx.fillStyle = '#12081f';
   ctx.fillRect(0, 0, W, H);

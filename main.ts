@@ -11,7 +11,7 @@
 // the output folder instead of /output:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
-import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-app.ts';
@@ -21,10 +21,17 @@ const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
 mkdirSync(outputDir, { recursive: true });
 cpSync(join(repoDir, 'app'), join(outputDir, 'app'), { recursive: true });
-mkdirSync(join(outputDir, 'screenshots'), { recursive: true });
-if (existsSync(join(repoDir, 'screenshots'))) {
-  cpSync(join(repoDir, 'screenshots'), join(outputDir, 'screenshots'), { recursive: true });
+const screenshotsDir = join(repoDir, 'screenshots');
+if (!existsSync(screenshotsDir)) {
+  throw new Error('screenshots/ is missing: the dossier needs the cover screenshots to ship with the app.');
 }
+const screenshotFiles = readdirSync(screenshotsDir).filter((name) => name.toLowerCase().endsWith('.jpg'));
+if (screenshotFiles.length === 0) {
+  throw new Error('screenshots/ is empty: add at least one JPG screenshot before building the dossier.');
+}
+mkdirSync(join(outputDir, 'screenshots'), { recursive: true });
+cpSync(screenshotsDir, join(outputDir, 'screenshots'), { recursive: true });
+console.log(`Neon Shores courier: copied ${screenshotFiles.length} screenshot file(s) to the output.`);
 
 // The caps below are the gate's own, passed to the library so the dossier it
 // writes is shaped exactly as the scorer expects: the judge's text view is

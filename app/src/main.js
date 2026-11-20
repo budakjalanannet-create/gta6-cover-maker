@@ -20,6 +20,27 @@ export const SIZES = {
 const SAMPLES = ['pier', 'boulevard'];
 const MAX_PANELS = 4;
 
+// Built-in caption ideas for the Surprise-me button. Kept small and
+// original — no film or game titles, just neon-city moods.
+const SURPRISE_TITLES = [
+  'Neon Shores',
+  'Palm Avenue',
+  'Midnight Coast',
+  'Boulevard Queen',
+  'Harbor Lights',
+  'Last Ride Home',
+  'Midnight Palms',
+];
+const SURPRISE_TAGLINES = [
+  'Vice nights, bright lights',
+  'One night in the neon city',
+  'Golden hour on the shore',
+  'Palms, chrome and midnight',
+  'Where the boulevard meets the sea',
+  'Drive it like the tide is out',
+  'Under palms after midnight',
+];
+
 const canvas = document.getElementById('preview');
 const ctx = canvas.getContext('2d');
 const status = document.getElementById('status');
@@ -141,6 +162,31 @@ function setStatus(text) {
   status.textContent = text;
 }
 
+function pickRandom(list) {
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+/**
+ * Surprise-me: a random layout, grade, title and tagline in one click.
+ * Only ever runs from the button below — the ?shot= scenes never call
+ * it, so screenshot rendering stays fully deterministic.
+ */
+function surpriseMe() {
+  state.layout = pickRandom(Object.keys(LAYOUTS));
+  state.grade = pickRandom(Object.keys(GRADES));
+  state.title = pickRandom(SURPRISE_TITLES);
+  state.tagline = pickRandom(SURPRISE_TAGLINES);
+  if (selectedPanel >= panelCount()) selectedPanel = 0;
+  // Reflect the new combination in every visible control.
+  document.querySelectorAll('#layoutPicker .chip').forEach((c) =>
+    c.classList.toggle('active', c.dataset.layout === state.layout));
+  document.getElementById('gradeSelect').value = state.grade;
+  document.getElementById('titleInput').value = state.title;
+  document.getElementById('taglineInput').value = state.tagline;
+  setStatus(`Surprise: ${LAYOUTS[state.layout].label} in ${GRADES[state.grade].label} — “${state.title}”.`);
+  render();
+}
+
 // ---- Controls -----------------------------------------------------------
 
 function buildPickers() {
@@ -209,6 +255,7 @@ function wireControls() {
     e.target.value = '';
     setStatus(`${photos.length} photo${photos.length === 1 ? '' : 's'} loaded.`);
   });
+  document.getElementById('surpriseBtn').addEventListener('click', surpriseMe);
   document.getElementById('exportBtn').addEventListener('click', exportPng);
 
   // Drag-and-drop photos anywhere on the page.

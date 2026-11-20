@@ -187,6 +187,37 @@ input[type='range'] {
 
 .ghost:hover { border-color: #00e5ff; color: #ffffff; }
 
+.surprise {
+  background: linear-gradient(92deg, #7b2ff7, #ff2e88);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14.5px;
+  font-weight: 700;
+  padding: 11px 13px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  width: 100%;
+}
+
+.surprise-hint {
+  color: #c9b3e6;
+  font-style: italic;
+  margin-top: -2px;
+}
+
+.surprise:hover { filter: brightness(1.12); }
+.surprise:active { transform: translateY(1px); }
+.surprise:focus-visible {
+  outline: 2px solid #00e5ff;
+  outline-offset: 2px;
+}
+
+/* The Duo Diagonal chip and the Midnight Palms grade get a cool edge in
+   the picker row, so the two newest options are easy to spot. */
+.chip[data-layout='duo-diagonal'] { border-color: #5b3a8a; }
+.chip[data-layout='duo-diagonal']:hover { border-color: #00e5c8; }
+
 .export {
   background: linear-gradient(92deg, #00c2ff, #00e5ff);
   color: #04222b;
